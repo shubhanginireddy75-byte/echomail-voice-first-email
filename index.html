@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="EchoMail - Voice-first accessible email prototype">
+  <title>EchoMail — Voice-First Email</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="#" aria-label="EchoMail home">EchoMail</a>
+    <div class="top-actions" aria-label="Display settings">
+      <button id="textDecrease" class="icon-btn" aria-label="Decrease text size">A−</button>
+      <button id="textIncrease" class="icon-btn" aria-label="Increase text size">A+</button>
+      <button id="darkToggle" class="icon-btn" aria-label="Toggle dark mode">Dark</button>
+      <button id="contrastToggle" class="icon-btn" aria-label="Toggle high contrast">High contrast</button>
+      <button id="headphonesToggle" class="toggle" aria-pressed="false">Headphones only: Off</button>
+    </div>
+  </header>
+
+  <main id="app" class="app">
+    <section id="briefingView" class="view" aria-labelledby="briefingTitle">
+      <div class="briefing card">
+        <div class="eyebrow">YOUR BRIEFING</div>
+        <h1 id="briefingTitle">Three threads need you today.</h1>
+        <p id="briefingText">
+          Biggest: Priya asks you to approve the Q3 budget by Friday.
+        </p>
+        <div class="player-actions">
+          <button id="playBriefing" class="primary">▶ Play briefing</button>
+          <button id="pauseSpeech">Pause</button>
+          <button id="stopSpeech">Stop</button>
+        </div>
+      </div>
+
+      <section aria-labelledby="threadsTitle">
+        <h2 id="threadsTitle">Threads by priority</h2>
+        <div id="threadList" class="thread-list"></div>
+      </section>
+    </section>
+
+    <section id="threadView" class="view hidden" aria-labelledby="threadTitle">
+      <button id="backToInbox" class="back">← Back to inbox</button>
+      <div class="card">
+        <div class="eyebrow">THREAD</div>
+        <h1 id="threadTitle">Q3 budget approval</h1>
+        <p class="meta">24 messages · 4 people · Needs reply</p>
+
+        <div class="summary-box">
+          <strong>Summary</strong>
+          <p>Priya wants approval of Rs 4 lakh by Friday. Dev disagrees on cost.</p>
+          <span class="confidence high">Confidence: High</span>
+        </div>
+
+        <h2>Chapters</h2>
+        <div id="chapterList" class="chapters"></div>
+
+        <div class="now-reading card-inner" aria-live="polite">
+          <div class="eyebrow">NOW READING</div>
+          <p id="readingText">Summary</p>
+          <div class="player-actions">
+            <button id="back10">↶ Back 10s</button>
+            <button id="pauseThread">Pause</button>
+            <button id="nextChapter">Next</button>
+          </div>
+        </div>
+
+        <div class="task-actions">
+          <button id="attachmentsBtn">📎 Attachments (2)</button>
+          <button id="replyBtn" class="primary">🎙 Reply by voice</button>
+        </div>
+      </div>
+    </section>
+
+    <section id="attachmentView" class="view hidden" aria-labelledby="attachmentTitle">
+      <button id="backToThread" class="back">← Back to thread</button>
+      <div class="card">
+        <div class="eyebrow">ATTACHMENT READER</div>
+        <h1 id="attachmentTitle">Invoice_Sana_Oct.pdf</h1>
+        <p class="meta">PDF · 2 pages</p>
+
+        <h2>What it is</h2>
+        <p>An invoice for Rs 48,200, due 30 November.</p>
+
+        <h2>Why it matters</h2>
+        <p>Priya needs your approval to pay it.</p>
+
+        <h2>Who sent it</h2>
+        <p>Sana and Co, via Priya Menon.</p>
+
+        <div class="confidence high">
+          <strong>Confidence: High</strong>
+          <span>Text was read cleanly.</span>
+        </div>
+
+        <div class="task-actions">
+          <button id="readAttachment" class="primary">Read full text</button>
+          <button id="readTable">Read table row by row</button>
+        </div>
+      </div>
+    </section>
+
+    <section id="replyView" class="view hidden" aria-labelledby="replyTitle">
+      <button id="backFromReply" class="back">← Back to thread</button>
+      <div class="card">
+        <div class="eyebrow">REPLY BY VOICE</div>
+        <h1 id="replyTitle">Reply to Priya</h1>
+
+        <p id="privacyNotice" class="privacy-note hidden">
+          🔒 Headphones only is required before sensitive audio is spoken.
+        </p>
+
+        <p class="hint">You can say: “Reply”, “Send”, “Edit”, “Discard”.</p>
+
+        <button id="holdSpeak" class="speak-button" aria-label="Hold to speak">
+          Hold to speak
+        </button>
+
+        <div class="dictation card-inner">
+          <div class="eyebrow">READ-BACK</div>
+          <p id="dictationText">Nothing dictated yet.</p>
+          <div class="task-actions">
+            <button id="sendReply" class="primary" disabled>Send</button>
+            <button id="discardReply">Discard</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="privacyView" class="view hidden" aria-labelledby="privacyTitle">
+      <div class="card privacy-card">
+        <div class="eyebrow">PRIVACY CHECK</div>
+        <h1 id="privacyTitle">The speaker is on.</h1>
+        <p>This message may contain sensitive information.</p>
+        <p>Read it on headphones only?</p>
+        <div class="task-actions">
+          <button id="connectHeadphones" class="primary">Connect headphones</button>
+          <button id="hearSender">Hear sender only</button>
+          <button id="notNow">Not now</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div class="command-bar">
+    <div id="status" aria-live="polite">Ready. Say “Read”, “Next”, “Reply”, “Attachments”, or “Help”.</div>
+    <button id="micButton" class="mic" aria-label="Start voice command">🎙</button>
+  </div>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>
